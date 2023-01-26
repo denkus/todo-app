@@ -13,8 +13,8 @@ function createEmptyTask() {
   return { id: 0, content: '', done: false } as Task
 }
 
-function handleNewTaskUpdate(updatedTask: Task) {
-  addTask(updatedTask)
+async function handleNewTaskUpdate(updatedTask: Task) {
+  await addTask(updatedTask)
   newTask.value = createEmptyTask()
 }
 

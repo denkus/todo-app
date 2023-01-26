@@ -1,6 +1,8 @@
 import { computed, ref, Ref } from 'vue';
 import { Task } from '../models/task';
 
+const tasksApiUrl = `${import.meta.env.VITE_API_BASE_URL}/tasks`
+
 const tasks: Ref<Task[]> = ref([] as Task[])
 
 export function useTasks() {
@@ -14,25 +16,40 @@ export function useTasks() {
   }
 }
   
-function loadTasks() {
-  tasks.value = [
-    { id: 1, content: 'test', done: true},
-    { id: 2, content: 'qwerty', done: false },
-    { id: 3, content: 'easy peasy', done: true },
-  ]
+async function loadTasks() {
+  const response = await fetch(tasksApiUrl)
+  tasks.value = await response.json()
 }
 
-function addTask(task: Task) {
-  tasks.value.push(task)
+async function addTask(task: Task) {
+  const response = await fetch(tasksApiUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(task),
+  })
+
+  const createdTask = await response.json()
+  tasks.value.push(createdTask)
 }
 
-function updateTask(task: Task) {
+async function updateTask(task: Task) {
+  await fetch(`${tasksApiUrl}/${task.id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(task),
+  })
+
   const existingTask = tasks.value.find(t => t.id === task.id)
   if (existingTask == null) return;
+
   existingTask.content = task.content
   existingTask.done = task.done
 }
 
-function deleteTask(id: number) {
+async function deleteTask(id: number) {
+  await fetch(`${tasksApiUrl}/${id}`, {
+    method: 'DELETE',
+  })
+  
   tasks.value = tasks.value.filter(t => t.id !== id)
 }
