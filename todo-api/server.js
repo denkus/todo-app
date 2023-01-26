@@ -11,6 +11,13 @@ app.use(
   })
 )
 
+app.use(function(_, res, next) {
+  res.header('Access-Control-Allow-Origin', '*')
+  res.header('Access-Control-Allow-Headers', '*')
+  res.header('Access-Control-Allow-Methods', '*')
+  next();
+});
+
 
 // Get all tasks
 app.get('/tasks', function (_, res) {
