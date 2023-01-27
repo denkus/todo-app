@@ -16,8 +16,13 @@
 ## API на Node.js + Express
 
 [Инструкция по запуску API](todo-api/README.md)
+
 [Код обработки методов API](todo-api/server.js)
 
 ## Web UI на Vue.js
 
 [Инструкция по запуску Web UI](todo-web/README.md)
+
+[Файлы компонентов TodoList](todo-web/src/components/)
+
+[Файл с обращениями к API](todo-web/src/composables/useTasks.ts)
